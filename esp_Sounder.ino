@@ -1,59 +1,106 @@
-/*
-  Blink
-  Turns on an LED on for one second, then off for one second, repeatedly.
 
-  Most Arduinos have an on-board LED you can control. On the Uno and
-  Leonardo, it is attached to digital pin 13. If you're unsure what
-  pin the on-board LED is connected to on your Arduino model, check
-  the documentation at http://www.arduino.cc
+#define SPEAKERPIN        D5 // Pin with the piezo speaker attached
 
-  This example code is in the public domain.
-
-  modified 8 May 2014
-  by Scott Fitzgerald
-*/
-#define NOOFCHIRPS        6   // The number of 'beeps' in a chirp
-#define SPEAKERPIN        D7 // Pin with the piezo speaker attached
-#define CHIRPFREQ        2600  // The frequency of the chirp
-
-// the setup function runs once when you press reset or power the board
 void setup() {
-  // initialize digital pin 13 as an output.
   pinMode(SPEAKERPIN, OUTPUT);
 }
 
-// the loop function runs over and over again forever
 void loop() {
   tickSound();
-  delay(1000);              // wait for a second
-  churpSound();
   delay(1000);
-  churpSound2();
-  delay(1000);
-    churpSound3();
-  delay(1000);
+//  SS1();
+//  delay(1000);
+//  SS2();
+//  delay(1000);
+//  SS3();
+//  delay(1000);
+//  SS4();
+//  delay(1000);
+//  //churpSound2();
+//  //delay(1000);
+//  churpSound3();
+//  delay(1000);
+//  chirp();
+//  delay(2000);
+//  meow();
+//  delay(2000);
+//  meow2();
+//  mew();
+//  delay(2000);
+//  ruff();
+//  delay(2000);
+//  arf();
+//  delay(2000);
+//  beep(2000, 1000);
+//  delay(2000);
+}
 
+void SS1() {
+  churpSound(1600, 2);
+  delay(1);
+  churpSound(2600, 2);
+  delay(1);
+  churpSound(3200, 2);
+  delay(1);
+  churpSound(4000, 2);
+  delay(1);
+  churpSound(1000, 5);
+}
+
+void SS2() {
+  for (int i = 0; i < 10; i++)
+  {
+    churpSound(random(3000) + 2000, 2);
+    delay(1);
+  }
+}
+
+void SS3() {
+  churpSound(4800, 1);
+  delay(1);
+  churpSound(4300, 1);
+  delay(1);
+  churpSound(4000, 1);
+  delay(1);
+  churpSound(3500, 1);
+  delay(1);
+  churpSound(3000, 1);
+}
+
+void SS4() {
+
+  churpSound(3000, 1);
+  delay(1);
+  churpSound(3500, 1);
+  delay(1);
+  churpSound(4000, 1);
+  delay(1);
+  churpSound(4300, 1);
+  delay(1);
+  churpSound(4800, 1);
 }
 
 void tickSound() {
+  digitalWrite(SPEAKERPIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1);
+  digitalWrite(SPEAKERPIN, LOW);    // turn the LED off by making the voltage LOW
+  delay(1);
   digitalWrite(SPEAKERPIN, HIGH);   // turn the LED on (HIGH is the voltage level)
   delay(100);
   digitalWrite(SPEAKERPIN, LOW);    // turn the LED off by making the voltage LOW
 }
 
-
-void churpSound() {
-
-  for (int i = 0; i < NOOFCHIRPS; i++)
+void churpSound(int inF, int num) {
+  for (int i = 0; i < num; i++)
   {
-    tone(SPEAKERPIN, CHIRPFREQ, 30);
+    tone(SPEAKERPIN, inF, 30);
     delay(60);
   }
   noTone(SPEAKERPIN);
 }
 
 void churpSound2() {
-  int crickets = 600;
+  int crickets = random(1000);
   int chirp = 50;
   analogWrite(SPEAKERPIN, crickets);
   delayMicroseconds(chirp);
@@ -62,11 +109,86 @@ void churpSound2() {
 }
 
 void churpSound3() {
-for(int i = 0; i < 20; i += 2)
-    {
-      delay(i);
-      digitalWrite(SPEAKERPIN, LOW);
-      delay(20 - i);
-      digitalWrite(SPEAKERPIN, HIGH);
-    }
+  for (int i = 0; i < 20; i += 2)
+  {
+    delay(i);
+    digitalWrite(SPEAKERPIN, LOW);
+    delay(20 - i);
+    digitalWrite(SPEAKERPIN, HIGH);
+  }
+}
+
+void chirp() {  // Bird chirp
+  for (uint8_t i = 200; i > 180; i--)
+    playTone(i, 9);
+}
+
+void meow() {  // cat meow (emphasis ow "me")
+  uint16_t i;
+  playTone(5100, 50);       // "m" (short)
+  playTone(394, 180);       // "eee" (long)
+  for (i = 990; i < 1022; i += 2) // vary "ooo" down
+    playTone(i, 8);
+  playTone(5100, 40);       // "w" (short)
+}
+
+void meow2() {  // cat meow (emphasis on "ow")
+  uint16_t i;
+  playTone(5100, 55);      // "m" (short)
+  playTone(394, 170);      // "eee" (long)
+  delay(30);               // wait a tiny bit
+  for (i = 330; i < 360; i += 2) // vary "ooo" down
+    playTone(i, 10);
+  playTone(5100, 40);      // "w" (short)
+}
+
+void mew() {  // cat mew
+  uint16_t i;
+  playTone(5100, 55);      // "m"   (short)
+  playTone(394, 130);      // "eee" (long)
+  playTone(384, 35);       // "eee" (up a tiny bit on end)
+  playTone(5100, 40);      // "w"   (short)
+}
+
+void ruff() {   // dog ruff
+  uint16_t i;
+  for (i = 890; i < 910; i += 2) // "rrr"  (vary down)
+    playTone(i, 3);
+  playTone(1664, 150);        // "uuu" (hard to do)
+  playTone(12200, 70);        // "ff"  (long, hard to do)
+}
+
+void arf() {    // dog arf
+  uint16_t i;
+  playTone(890, 25);         // "a"    (short)
+  for (i = 890; i < 910; i += 2) // "rrr"  (vary down)
+    playTone(i, 5);
+  playTone(4545, 80);        // intermediate
+  playTone(12200, 70);       // "ff"   (shorter, hard to do)
+}
+
+// play tone on a piezo speaker: tone shorter values produce higher frequencies
+//  which is opposite beep() but avoids some math delay - similar to code by Erin Robotgrrl
+
+void playTone(uint16_t tone1, uint16_t duration) {
+  if (tone1 < 50 || tone1 > 15000) return; // these do not play on a piezo
+  for (long i = 0; i < duration * 1000L; i += tone1 * 2) {
+    digitalWrite(SPEAKERPIN, HIGH);
+    delayMicroseconds(tone1);
+    digitalWrite(SPEAKERPIN, LOW);
+    delayMicroseconds(tone1);
+  }
+}
+
+// another sound producing function similar to http://web.media.mit.edu/~leah/LilyPad/07_sound_code.html
+void beep (int16_t frequencyInHertz, long timeInMilliseconds) {
+  long x;
+  long delayAmount = (long)(1000000 / frequencyInHertz);
+  long loopTime = (long)((timeInMilliseconds * 1000) / (delayAmount * 2));
+  for (x = 0; x < loopTime; x++) {
+    digitalWrite(SPEAKERPIN, HIGH);
+    delayMicroseconds(delayAmount);
+    digitalWrite(SPEAKERPIN, LOW);
+    delayMicroseconds(delayAmount);
+  }
 }
